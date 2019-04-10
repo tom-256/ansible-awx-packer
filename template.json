@@ -1,0 +1,39 @@
+{
+    "variables": {
+        "aws_access_key": "",
+        "aws_secret_key": ""
+    },
+    "builders": [
+        {
+            "type": "amazon-ebs",
+            "access_key": "{{user `aws_access_key`}}",
+            "secret_key": "{{user `aws_secret_key`}}",
+            "region": "ap-northeast-1",
+            "source_ami": "ami-0f9ae750e8274075b",
+            "instance_type": "t2.medium",
+            "ssh_username": "ec2-user",
+            "ami_name": "ansible-awx {{timestamp}}"
+        }
+    ],
+    "provisioners": [
+        {
+            "type": "shell",
+            "inline": [
+                "sudo yum install -y git",
+                "sudo amazon-linux-extras install epel",
+                "sudo yum-config-manager --enable epel",
+                "yum repolist",
+                "sudo yum install -y https://releases.ansible.com/ansible/rpm/release/epel-7-x86_64/ansible-2.7.8-1.el7.ans.noarch.rpm",
+                "sudo amazon-linux-extras install -y docker",
+                "sudo systemctl start docker",
+                "sudo systemctl enable docker",
+                "curl -kL https://bootstrap.pypa.io/get-pip.py | sudo python",
+                "sudo pip install --ignore-installed docker",
+                "sudo pip install docker-compose",
+                "git clone https://github.com/ansible/awx",
+                "cd awx/installer",
+                "sudo ansible-playbook -i inventory install.yml"
+            ]
+        }
+    ]
+}
