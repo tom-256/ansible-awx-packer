@@ -12,7 +12,13 @@
             "source_ami": "ami-0f9ae750e8274075b",
             "instance_type": "t2.medium",
             "ssh_username": "ec2-user",
-            "ami_name": "ansible-awx {{timestamp}}"
+            "ami_name": "ansible-awx {{timestamp}}",
+            "launch_block_device_mappings": [
+                {
+                    "device_name": "/dev/xvda",
+                    "volume_size": 30
+                }
+            ]
         }
     ],
     "provisioners": [
