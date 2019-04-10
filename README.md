@@ -1,6 +1,6 @@
 # ansible-awx-packer
-ansible awx golden image
+ansible awx golden image based amazon linux
 
 ```
-$packer build -ver-file=credential.json template.json
+$packer build template.json
 ```
